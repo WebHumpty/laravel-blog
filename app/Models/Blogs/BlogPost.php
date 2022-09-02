@@ -77,4 +77,12 @@ class BlogPost extends Model
     {
         return $this->hasMany(BlogComment::class);
     }
+
+    /**
+     * включить в область запроса, только опубликованные посты
+     */
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_published', true);
+    }
 }
