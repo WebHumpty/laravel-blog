@@ -13,7 +13,7 @@ class BlogPostController extends AppController
      */
     public function index(): View
     {
-        $paginator = BlogPost::with('blogCategory', 'blogAuthor')
+        $paginator = BlogPost::categoryAndAuthor()
             ->published()
             ->paginate(BlogPost::CLIENT_PER_PAGE);
 
@@ -64,7 +64,7 @@ class BlogPostController extends AppController
     {
         $search = "%{$request->input('search')}%";
 
-        $paginator = BlogPost::with('blogCategory', 'blogAuthor')
+        $paginator = BlogPost::categoryAndAuthor()
             ->where('title', 'LIKE', $search)
             ->orWhere('content', 'LIKE', $search)
             ->published()

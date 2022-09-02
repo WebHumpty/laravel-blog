@@ -5,15 +5,13 @@ namespace App\Models\Blogs;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class BlogCategory
  * @package App\Models\Blogs
  * @mixin Builder
  */
-class BlogCategory extends Model
+class BlogCategory extends AppModel
 {
     use HasFactory, Sluggable;
 
@@ -35,13 +33,5 @@ class BlogCategory extends Model
                 'source' => 'name'
             ]
         ];
-    }
-
-    /**
-     * вернуть посты категории
-     */
-    public function blogPosts(): HasMany
-    {
-        return $this->hasMany(BlogPost::class);
     }
 }
