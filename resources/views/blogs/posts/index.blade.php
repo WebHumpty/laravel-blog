@@ -12,10 +12,10 @@
     @foreach ($paginator as $value)
         <article class="post">
             <div class="post-thumb">
-                <a href="#">
+                <a href="{{ route('blogs.posts.single', ['slug' => $value->slug]) }}">
                     <img src="{{ $value->getImage() }}" alt="">
                 </a>
-                <a href="#"
+                <a href="{{ route('blogs.posts.single', ['slug' => $value->slug]) }}"
                    class="post-thumb-overlay text-center">
                     <div class="text-uppercase text-center">View Post</div>
                 </a>
