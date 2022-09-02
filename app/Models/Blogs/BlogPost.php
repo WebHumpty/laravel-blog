@@ -6,6 +6,9 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class BlogPost
@@ -41,5 +44,37 @@ class BlogPost extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    /**
+     * вернуть категорию поста
+     */
+    public function blogCategory(): BelongsTo
+    {
+        return $this->belongsTo(BlogCategory::class);
+    }
+
+    /**
+     * вернуть автора поста
+     */
+    public function blogAuthor(): BelongsTo
+    {
+        return $this->belongsTo(BlogAuthor::class);
+    }
+
+    /**
+     * вернуть теги поста
+     */
+    public function blogTags(): BelongsToMany
+    {
+        return $this->belongsToMany(BlogTag::class);
+    }
+
+    /**
+     * вернуть комментарии поста
+     */
+    public function blogComments(): HasMany
+    {
+        return $this->hasMany(BlogComment::class);
     }
 }
