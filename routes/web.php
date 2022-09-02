@@ -17,3 +17,4 @@ use App\Http\Controllers\Blogs\Frontend\BlogPostController;
 Auth::routes();
 
 Route::get('/', [BlogPostController::class, 'index'])->name('blogs.posts.index');
+Route::get('/posts/{slug}', [BlogPostController::class, 'show'])->name('blogs.posts.single');
