@@ -2,6 +2,7 @@
 
 namespace App\Models\Blogs;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 /**
  * Class BlogPost
@@ -18,6 +20,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class BlogPost extends Model
 {
     use HasFactory, Sluggable;
+
+    public const CLIENT_PER_PAGE = 10;
+    public const ADMIN_REP_PAGE = 10;
+
+    public const MINI_DESCRIPTION = 300;
 
     protected $fillable = [
         'blog_category_id',
@@ -84,5 +91,34 @@ class BlogPost extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);
+    }
+
+    /**
+     * вернуть путь изображения поста
+     */
+    public function getImage(): ?string
+    {
+        if ($this->thumbnail) {
+            $imagePath = asset("/uploads/{$this->thumbnail}");
+        }
+
+        return $imagePath ?? null;
+    }
+
+    /**
+     * вернуть мини описание текста
+     */
+    public function miniDescription(): string
+    {
+        return Str::limit($this->content, self::MINI_DESCRIPTION, '...');
+    }
+
+    /**
+     * вернуть дату публикации
+     */
+    public function publishedDate(): string
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)
+            ->format('d, F, Y');
     }
 }
