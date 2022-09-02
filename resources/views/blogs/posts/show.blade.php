@@ -33,7 +33,7 @@
             <div class="decoration">
                 @if ($item->blogTags->isNotEmpty())
                     @foreach ($item->blogTags as $value)
-                        <a href="#" class="btn btn-default">
+                        <a href="{{ route('blogs.tags.single', ['slug' => $value->slug]) }}" class="btn btn-default">
                             {{ $value->name }}
                         </a>
                     @endforeach
