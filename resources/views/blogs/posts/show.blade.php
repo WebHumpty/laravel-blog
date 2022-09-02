@@ -17,7 +17,7 @@
         <div class="post-content">
             <header class="entry-header text-center text-uppercase">
                 <h6>
-                    <a href="#">
+                    <a href="{{ route('blogs.categories.single', ['slug' => $item->blogCategory->slug]) }}">
                         {{ $item->blogCategory->name }}
                     </a>
                 </h6>
