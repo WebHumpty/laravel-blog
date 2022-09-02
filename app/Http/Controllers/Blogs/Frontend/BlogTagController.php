@@ -22,7 +22,7 @@ class BlogTagController extends AppController
         }
 
         $paginator = $item->blogTagPosts()
-            ->with('blogCategory', 'blogAuthor')
+            ->categoryAndAuthor()
             ->published()
             ->orderBy('id', 'DESC')
             ->paginate(BlogPost::CLIENT_PER_PAGE);

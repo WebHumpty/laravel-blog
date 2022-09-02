@@ -2,11 +2,9 @@
 
 namespace App\Models\Blogs;
 
-use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +15,7 @@ use Illuminate\Support\Str;
  * @package App\Models\Blogs
  * @mixin Builder
  */
-class BlogPost extends Model
+class BlogPost extends AppModel
 {
     use HasFactory, Sluggable;
 
@@ -113,14 +111,5 @@ class BlogPost extends Model
     public function miniDescription(): string
     {
         return Str::limit($this->content, self::MINI_DESCRIPTION, '...');
-    }
-
-    /**
-     * вернуть дату публикации
-     */
-    public function publishedDate(): string
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)
-            ->format('d, F, Y');
     }
 }

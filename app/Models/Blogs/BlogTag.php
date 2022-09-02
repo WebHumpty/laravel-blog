@@ -5,7 +5,6 @@ namespace App\Models\Blogs;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -13,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @package App\Models\Blogs
  * @mixin Builder
  */
-class BlogTag extends Model
+class BlogTag extends AppModel
 {
     use HasFactory, Sluggable;
 
