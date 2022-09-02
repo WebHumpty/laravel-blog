@@ -26,6 +26,8 @@ class BlogPost extends Model
 
     public const MINI_DESCRIPTION = 300;
 
+    public const POST_CAROUSEL = 6;
+
     protected $fillable = [
         'blog_category_id',
         'blog_author_id',
