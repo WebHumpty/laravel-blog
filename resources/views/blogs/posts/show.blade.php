@@ -42,7 +42,9 @@
 
             <div class="social-share">
                 <span class="social-share-title pull-left text-capitalize">
-                    By {{ $item->blogAuthor->name }}
+                    By <a href="{{ route('blogs.posts.single', ['slug' => $item->slug]) }}">
+                        {{ $item->blogAuthor->name }}
+                    </a>
                     On {{ $item->publishedDate() }}
                 </span>
                 <ul class="text-center pull-right">

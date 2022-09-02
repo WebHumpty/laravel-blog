@@ -33,7 +33,7 @@
         </div>
         <div class="social-share">
             <span class="social-share-title pull-left text-capitalize">
-                By <a href="#">
+                By <a href="{{ route('blogs.authors.single', ['slug' => $value->blogAuthor->slug]) }}">
                     {{ $value->blogAuthor->name }}
                 </a>
                 On {{ $value->publishedDate() }}
