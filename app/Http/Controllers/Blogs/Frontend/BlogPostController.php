@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Blogs\Frontend;
 
 use App\Models\Blogs\BlogPost;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BlogPostController extends AppController
@@ -53,6 +54,25 @@ class BlogPostController extends AppController
             'previousPost' => $previousPost,
             'nextPost' => $nextPost,
             'postsCarousel' => $postsCarousel,
+        ]);
+    }
+
+    /**
+     * вернуть страницу поика постов
+     */
+    public function search(Request $request): View
+    {
+        $search = "%{$request->input('search')}%";
+
+        $paginator = BlogPost::with('blogCategory', 'blogAuthor')
+            ->where('title', 'LIKE', $search)
+            ->orWhere('content', 'LIKE', $search)
+            ->published()
+            ->paginate(BlogPost::CLIENT_PER_PAGE)
+            ->withQueryString();
+
+        return view('blogs.posts.search', [
+            'paginator' => $paginator,
         ]);
     }
 }
