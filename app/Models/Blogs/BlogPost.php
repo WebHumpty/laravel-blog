@@ -25,8 +25,8 @@ class BlogPost extends AppModel
     public const MINI_DESCRIPTION = 300;
 
     public const POST_CAROUSEL = 6;
-
-    public const ARRAY_LENGTH_VIEW = 3;
+    public const POPULAR_COUNT = 3;
+    public const RECENT_COUNT = 4;
 
     protected $fillable = [
         'blog_category_id',

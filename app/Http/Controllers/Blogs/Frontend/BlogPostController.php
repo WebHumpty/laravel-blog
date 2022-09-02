@@ -53,7 +53,7 @@ class BlogPostController extends AppController
         $item->recordViewPost();
 
         (Viewing::create())
-            ->init($item->id, $item::ARRAY_LENGTH_VIEW)
+            ->init($item->id, $item::RECENT_COUNT)
             ->addView();
 
         return view('blogs.posts.show', [
