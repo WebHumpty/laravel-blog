@@ -167,3 +167,7 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('assets/js/comments.js') }}"></script>
+@endpush

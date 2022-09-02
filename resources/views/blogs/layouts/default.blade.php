@@ -48,5 +48,6 @@
 <script type="text/javascript" src="{{ asset('assets/js/jquery.stickit.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/menu.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+@stack('scripts')
 </body>
 </html>
