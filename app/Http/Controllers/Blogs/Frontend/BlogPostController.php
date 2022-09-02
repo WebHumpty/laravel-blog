@@ -20,4 +20,39 @@ class BlogPostController extends AppController
             'paginator' => $paginator,
         ]);
     }
+
+    /**
+     * вернуть страницу поста
+     */
+    public function show(string $slug): View
+    {
+        $item = BlogPost::where('slug', $slug)
+            ->first();
+
+        if (!$item) {
+            abort(404);
+        }
+
+        $previousPost = $item->select('id','slug', 'title', 'thumbnail')
+            ->where('blog_category_id', $item->blog_category_id)
+            ->where('id', '<', $item->id)
+            ->orderBy('id', 'DESC')
+            ->limit(1)
+            ->first();
+
+        $nextPost = $item->select('id', 'slug', 'title', 'thumbnail')
+            ->where('blog_category_id', $item->blog_category_id)
+            ->where('id', '>', $item->id)
+            ->limit(1)
+            ->first();
+
+        $postsCarousel = $item->limit(BlogPost::POST_CAROUSEL)->get();
+
+        return view('blogs.posts.show', [
+            'item' => $item,
+            'previousPost' => $previousPost,
+            'nextPost' => $nextPost,
+            'postsCarousel' => $postsCarousel,
+        ]);
+    }
 }
