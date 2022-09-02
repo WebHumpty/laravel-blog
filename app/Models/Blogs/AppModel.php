@@ -3,6 +3,7 @@
 namespace App\Models\Blogs;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,5 +27,13 @@ class AppModel extends Model
     public function blogPosts(): HasMany
     {
         return $this->hasMany(BlogPost::class);
+    }
+
+    /**
+     * настройте область запроса, включить в запрос авторов и категории
+     */
+    public function scopeCategoryAndAuthor(Builder $query): Builder
+    {
+        return $query->with('blogAuthor', 'blogCategory');
     }
 }
