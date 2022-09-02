@@ -1,33 +1,19 @@
 <div class="primary-sidebar">
-    <aside class="widget border pos-padding">
-        <h3 class="widget-title text-uppercase text-center">Categories</h3>
-        <ul>
-            <li>
-                <a href="#">Food & Drinks</a>
-                <span class="post-count pull-right"> (2)</span>
-            </li>
-            <li>
-                <a href="#">Travel</a>
-                <span class="post-count pull-right"> (2)</span>
-            </li>
-            <li>
-                <a href="#">Business</a>
-                <span class="post-count pull-right"> (2)</span>
-            </li>
-            <li>
-                <a href="#">Story</a>
-                <span class="post-count pull-right"> (2)</span>
-            </li>
-            <li>
-                <a href="#">DIY & Tips</a>
-                <span class="post-count pull-right"> (2)</span>
-            </li>
-            <li>
-                <a href="#">Lifestyle</a>
-                <span class="post-count pull-right"> (2)</span>
-            </li>
-        </ul>
-    </aside>
+    @if (!empty($categoriesList) && $categoriesList->isNotEmpty())
+        <aside class="widget">
+            <h3 class="widget-title text-uppercase text-center">Categories</h3>
+            <ul>
+                @foreach ($categoriesList as $value)
+                    <li>
+                        <a href="{{ route('blogs.categories.single', ['slug' => $value->slug]) }}">
+                            {{ $value->name }}
+                        </a>
+                        <span class="post-count pull-right"> ({{ $value->blogPosts->count() }})</span>
+                    </li>
+                @endforeach
+            </ul>
+        </aside>
+    @endif
 
     <aside class="widget pos-padding">
         <h3 class="widget-title text-uppercase text-center">
