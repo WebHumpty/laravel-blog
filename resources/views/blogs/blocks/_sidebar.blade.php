@@ -15,123 +15,52 @@
         </aside>
     @endif
 
-    <aside class="widget pos-padding">
-        <h3 class="widget-title text-uppercase text-center">
-            Recent Posts
-        </h3>
+    @if (!empty($recentPosts) && $recentPosts->isNotEmpty())
+        <aside class="widget pos-padding">
+            <h3 class="widget-title text-uppercase text-center">Recent Posts</h3>
+            @foreach ($recentPosts as $value)
+                <div class="thumb-latest-posts">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#" class="popular-img">
+                                <img src="{{ $value->getImage() }}" alt="" height="60">
+                                <div class="p-overlay"></div>
+                            </a>
+                        </div>
+                        <div class="p-content">
+                            <a href="{{ route('blogs.posts.single', ['slug' => $value->slug]) }}"
+                               class="text-uppercase">
+                                {{ $value->title }}
+                            </a>
+                            <span class="p-date">
+                        {{ $value->publishedDate() }}
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </aside>
+    @endif
 
-        <div class="thumb-latest-posts">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#" class="popular-img">
-                        <img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="" height="60">
+    @if (!empty($popularPosts) && $popularPosts->isNotEmpty())
+        <aside class="widget border pos-padding">
+            <h3 class="widget-title text-uppercase text-center">Popular Posts</h3>
+            @foreach ($popularPosts as $value)
+                <div class="popular-post">
+                    <a href="{{ route('blogs.posts.single', ['slug' => $value->slug]) }}" class="popular-img">
+                        <img src="{{ $value->getImage() }}" alt="">
                         <div class="p-overlay"></div>
                     </a>
+                    <div class="p-content">
+                        <a href="{{ route('blogs.posts.single', ['slug' => $value->slug]) }}" class="text-uppercase">
+                            {{ $value->title }}
+                        </a>
+                        <span class="p-date">
+                {{ $value->publishedDate() }}
+            </span>
+                    </div>
                 </div>
-                <div class="p-content">
-                    <a href="#" class="text-uppercase">
-                        Home is peaceful Place
-                    </a>
-                    <span class="p-date">
-                        February 15, 2016
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="thumb-latest-posts">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#" class="popular-img">
-                        <img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="" height="60">
-                        <div class="p-overlay"></div>
-                    </a>
-                </div>
-                <div class="p-content">
-                    <a href="#" class="text-uppercase">
-                        Home is peaceful Place
-                    </a>
-                    <span class="p-date">
-                        February 15, 2016
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="thumb-latest-posts">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#" class="popular-img">
-                        <img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="" height="60">
-                        <div class="p-overlay"></div>
-                    </a>
-                </div>
-                <div class="p-content">
-                    <a href="#" class="text-uppercase">
-                        Home is peaceful Place
-                    </a>
-                    <span class="p-date">
-                        February 15, 2016
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="thumb-latest-posts">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#" class="popular-img">
-                        <img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="" height="60">
-                        <div class="p-overlay"></div>
-                    </a>
-                </div>
-                <div class="p-content">
-                    <a href="#" class="text-uppercase">
-                        Home is peaceful Place
-                    </a>
-                    <span class="p-date">
-                        February 15, 2016
-                    </span>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <aside class="widget">
-        <h3 class="widget-title text-uppercase text-center">
-            Popular Posts
-        </h3>
-
-        <div class="popular-post">
-            <a href="#" class="popular-img">
-                <img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="">
-                <div class="p-overlay"></div>
-            </a>
-            <div class="p-content">
-                <a href="#" class="text-uppercase">
-                    Home is peaceful Place
-                </a>
-                <span class="p-date">
-                    February 15, 2016
-                </span>
-            </div>
-        </div>
-
-        <div class="popular-post">
-            <a href="#" class="popular-img"><img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="">
-                <div class="p-overlay"></div>
-            </a>
-            <div class="p-content">
-                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                <span class="p-date">February 15, 2016</span>
-            </div>
-        </div>
-        <div class="popular-post">
-            <a href="#" class="popular-img"><img src="{{ asset('uploads/images/blog-1.jpg') }}" alt="">
-                <div class="p-overlay"></div>
-            </a>
-            <div class="p-content">
-                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                <span class="p-date">February 15, 2016</span>
-            </div>
-        </div>
-    </aside>
+            @endforeach
+        </aside>
+    @endif
 </div>

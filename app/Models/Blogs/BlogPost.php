@@ -25,6 +25,8 @@ class BlogPost extends AppModel
     public const MINI_DESCRIPTION = 300;
 
     public const POST_CAROUSEL = 6;
+    public const POPULAR_COUNT = 3;
+    public const RECENT_COUNT = 4;
 
     protected $fillable = [
         'blog_category_id',
@@ -111,5 +113,14 @@ class BlogPost extends AppModel
     public function miniDescription(): string
     {
         return Str::limit($this->content, self::MINI_DESCRIPTION, '...');
+    }
+
+    /**
+     * добавить просмотр посту
+     */
+    public function recordViewPost(): void
+    {
+        $this->views += 1;
+        $this->update();
     }
 }
