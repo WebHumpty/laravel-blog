@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Blogs\Frontend;
 
+use App\Helpers\Viewing;
 use App\Models\Blogs\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -48,6 +49,12 @@ class BlogPostController extends AppController
             ->first();
 
         $postsCarousel = $item->limit(BlogPost::POST_CAROUSEL)->get();
+
+        $item->recordViewPost();
+
+        (Viewing::create())
+            ->init($item->id, $item::ARRAY_LENGTH_VIEW)
+            ->addView();
 
         return view('blogs.posts.show', [
             'item' => $item,

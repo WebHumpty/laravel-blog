@@ -26,6 +26,8 @@ class BlogPost extends AppModel
 
     public const POST_CAROUSEL = 6;
 
+    public const ARRAY_LENGTH_VIEW = 3;
+
     protected $fillable = [
         'blog_category_id',
         'blog_author_id',
@@ -111,5 +113,14 @@ class BlogPost extends AppModel
     public function miniDescription(): string
     {
         return Str::limit($this->content, self::MINI_DESCRIPTION, '...');
+    }
+
+    /**
+     * добавить просмотр посту
+     */
+    public function recordViewPost(): void
+    {
+        $this->views += 1;
+        $this->update();
     }
 }
