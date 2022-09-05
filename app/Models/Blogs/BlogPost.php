@@ -123,4 +123,15 @@ class BlogPost extends AppModel
         $this->views += 1;
         $this->update();
     }
+
+    /**
+     * включить в область запроса, только найденные посты
+     */
+    public function scopeSearchQuery(Builder $query, string $search): Builder
+    {
+        $query->where('title', 'LIKE', $search)
+            ->orWhere('content', 'LIKE', $search);
+
+        return $query;
+    }
 }
