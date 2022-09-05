@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Blogs\BlogTag;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class CoreRepository
 {
@@ -59,5 +62,41 @@ abstract class CoreRepository
         }
 
         return $item;
+    }
+
+    /**
+     * вернуть все посты
+     */
+    public function getAllWithPaginate(int $perPage, bool $isPublished = true, ?Model $item = null): LengthAwarePaginator
+    {
+        $query = $this
+            ->getQueryModel($item)
+            ->categoryAndAuthor();
+
+        if ($isPublished) {
+            $query->published();
+        }
+
+        $paginator = $query
+            ->orderBy('id', 'DESC')
+            ->paginate($perPage);
+
+        return $paginator;
+    }
+
+
+    /**
+     * @param Model|null $item
+     * @return Model|BelongsToMany
+     */
+    private function getQueryModel(Model $item = null)
+    {
+        if (!empty($item) && ($item instanceof BlogTag)) {
+            return $item->blogTagPosts();
+        } elseif (!empty($item)) {
+            return $item->blogPosts();
+        }
+
+        return $this->startConditions();
     }
 }
