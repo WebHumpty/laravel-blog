@@ -2,21 +2,33 @@
 
 namespace App\Http\Controllers\Blogs\Frontend;
 
-use App\Helpers\Viewing;
 use App\Models\Blogs\BlogPost;
+use App\Repositories\Blogs\BlogPostRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BlogPostController extends AppController
 {
+    /** @var BlogPostRepository  */
+    private BlogPostRepository $blogPostRepository;
+
+    /**
+     * BlogPostController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->blogPostRepository = app(BlogPostRepository::class);
+    }
+
     /**
      * вернуть страницу постов
      */
     public function index(): View
     {
-        $paginator = BlogPost::categoryAndAuthor()
-            ->published()
-            ->paginate(BlogPost::CLIENT_PER_PAGE);
+        $paginator = $this->blogPostRepository
+            ->getAllWithPaginate(BlogPost::CLIENT_PER_PAGE);
 
         return view('blogs.posts.index', [
             'paginator' => $paginator,
@@ -28,33 +40,24 @@ class BlogPostController extends AppController
      */
     public function show(string $slug): View
     {
-        $item = BlogPost::where('slug', $slug)
-            ->first();
+        $item = $this->blogPostRepository
+            ->findBySlug($slug);
 
         if (!$item) {
             abort(404);
         }
 
-        $previousPost = $item->select('id','slug', 'title', 'thumbnail')
-            ->where('blog_category_id', $item->blog_category_id)
-            ->where('id', '<', $item->id)
-            ->orderBy('id', 'DESC')
-            ->limit(1)
-            ->first();
+        $previousPost = $this->blogPostRepository
+            ->getPreviousPost($item);
 
-        $nextPost = $item->select('id', 'slug', 'title', 'thumbnail')
-            ->where('blog_category_id', $item->blog_category_id)
-            ->where('id', '>', $item->id)
-            ->limit(1)
-            ->first();
+        $nextPost = $this->blogPostRepository
+            ->getNextPost($item);
 
-        $postsCarousel = $item->limit(BlogPost::POST_CAROUSEL)->get();
+        $postsCarousel = $this->blogPostRepository
+            ->getPostsCarousel(BlogPost::POST_CAROUSEL);
 
-        $item->recordViewPost();
-
-        (Viewing::create())
-            ->init($item->id, $item::RECENT_COUNT)
-            ->addView();
+        $this->blogPostRepository
+            ->recordView($item);
 
         return view('blogs.posts.show', [
             'item' => $item,
@@ -71,12 +74,8 @@ class BlogPostController extends AppController
     {
         $search = "%{$request->input('search')}%";
 
-        $paginator = BlogPost::categoryAndAuthor()
-            ->where('title', 'LIKE', $search)
-            ->orWhere('content', 'LIKE', $search)
-            ->published()
-            ->paginate(BlogPost::CLIENT_PER_PAGE)
-            ->withQueryString();
+        $paginator = $this->blogPostRepository
+            ->search($search);
 
         return view('blogs.posts.search', [
             'paginator' => $paginator,

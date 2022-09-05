@@ -22,7 +22,7 @@
                 <div class="thumb-latest-posts">
                     <div class="media">
                         <div class="media-left">
-                            <a href="#" class="popular-img">
+                            <a href="{{ route('blogs.posts.single', ['slug' => $value->slug]) }}" class="popular-img">
                                 <img src="{{ $value->getImage() }}" alt="" height="60">
                                 <div class="p-overlay"></div>
                             </a>
@@ -33,8 +33,8 @@
                                 {{ $value->title }}
                             </a>
                             <span class="p-date">
-                        {{ $value->publishedDate() }}
-                    </span>
+                                {{ $value->publishedDate() }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                             {{ $value->title }}
                         </a>
                         <span class="p-date">
-                {{ $value->publishedDate() }}
-            </span>
+                            {{ $value->publishedDate() }}
+                        </span>
                     </div>
                 </div>
             @endforeach
